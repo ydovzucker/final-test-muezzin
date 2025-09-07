@@ -1,6 +1,10 @@
 import os
+
+from connection_elastic import index_json_to_elastic
 from meta_data_files import get_meta_data,convert_meta_data_to_json
 from publisher import Publisher
+from consumer import consume_meta_data
+import json
 
 
 
@@ -27,8 +31,17 @@ def run():
              tag = get_meta_data(full_path)
              json_meta_data = convert_meta_data_to_json(tag,full_path)
              publisher = Publisher()
-             publisher.publish("meta_data_for_audio_file" ,json_meta_data)
-             print()
+             topic = "meta_data_for_audio_file"
+             data = json.loads(json_meta_data)
+
+             headers = {"uniq_id":data["metadata"]["filesize"]}
+             publisher.publish(topic,json_meta_data,headers)
+             consumed_message = consume_meta_data(topic)
+             id = consumed_message.headers["uniq_id"]
+
+
+             index_json_to_elastic()
+
 
 
 
