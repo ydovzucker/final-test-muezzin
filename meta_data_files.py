@@ -23,8 +23,8 @@ import os
 #             all_file_paths.append()
 #     return all_file_paths
 def get_meta_data(full_path):
-    meta_data = TinyTag.get(full_path)
-    return meta_data
+    tag = TinyTag.get(full_path)
+    return tag
 def convert_meta_data_to_json(tag,full_path):
     data = {
         "file_path": full_path,

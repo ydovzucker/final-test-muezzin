@@ -2,6 +2,7 @@ import os
 from kafka import KafkaProducer
 import json
 from dotenv import load_dotenv
+from kafka.errors import KafkaError
 
 load_dotenv()  # Load env vars
 class Publisher:
@@ -18,6 +19,15 @@ class Publisher:
         """
         Publish a single message (dict) to the given Kafka topic
         """
-        self.producer.send(topic, value=message)
-        self.producer.flush()  # Ensure it is sent immediately
-        print(f"Published message to {topic}")
+        try:
+
+            self.producer.send(topic, value=message)
+            self.producer.flush()  # Ensure it is sent immediately
+            print(f"Published message to {topic}")
+        except KafkaError as e:
+            # Handle Kafka-specific errors (e.g., connection issues, invalid topic)
+            print(f"KafkaError occurred: {e}")
+        except Exception as e:
+            # Handle other unexpected errors
+            print(f"An unexpected error occurred: {e}")
+
