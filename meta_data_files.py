@@ -1,5 +1,7 @@
 from tinytag import TinyTag
 import json
+import wave
+from pathlib import Path
 
 
 import os
@@ -56,60 +58,21 @@ if __name__ == "__main__":
 
 
 
-# # Specify the path to your WAV file
-# file_path = "path/to/your/audio.wav"
+# import wave
+# from pathlib import Path
 #
-# try:
-#     # Get the tag object for the WAV file
-#     tag = TinyTag.get(file_path)
+#     wav_file_path = Path("your_audio_file.wav") # Replace with your WAV file path
 #
-#     # Access various metadata attributes
-#     print(f"Title: {tag.title}")
-#     print(f"Artist: {tag.artist}")
-#     print(f"Album: {tag.album}")
-#     print(f"Duration (seconds): {tag.duration}")
-#     print(f"Sample Rate (Hz): {tag.samplerate}")
-#     print(f"Bitrate (kbps): {tag.bitrate}")
-#     print(f"Channels: {tag.channels}")
-#     print(f"Filesize (bytes): {tag.filesize}")
-#     print(f"Genre: {tag.genre}")
-#     print(f"Year: {tag.year}")
-#
-# except FileNotFoundError:
-#     print(f"Error: File not found at {file_path}")
-# except Exception as e:
-#     print(f"An error occurred: {e}")
-#
-# data = {
-#                 "file_path": full_path,
-#                 "metadata": {
-#                     "title": tag.title,
-#                     "artist": tag.artist,
-#                     "album": tag.album,
-#                     "duration": tag.duration,  # in seconds
-#                     "filesize": tag.filesize,  # in bytes
-#                     # Add other metadata fields as needed
-#                 }
-#             }
-#
-# def get_meta_data(full_path):
-#     meta_data = TinyTag.get(full_path)
-#     return meta_data
-# def convert_meta_data_to_json(meta_data,full_path):
-#     data = {
-#         "file_path": full_path,
-#         "metadata": {
-#             "title": tag.title,
-#             "artist": tag.artist,
-#             "album": tag.album,
-#             "duration": tag.duration,  # in seconds
-#             "filesize": tag.filesize,  # in bytes
-#             # Add other metadata fields as needed
-#         }
-#     }
-#     json_string = json.dumps(data, indent=4)
-#     print(json_string)
-#     return json_string
+#     try:
+#         with wave.open(str(wav_file_path), 'rb') as wf:
+#             print(f"Number of channels: {wf.getnchannels()}")
+#             print(f"Sample width (bytes): {wf.getsampwidth()}")
+#             print(f"Frame rate (sample rate): {wf.getframerate()}")
+#             print(f"Number of frames: {wf.getnframes()}")
+#             print(f"Compression type: {wf.getcomptype()}")
+#             print(f"Compression name: {wf.getcompname()}")
+#     except wave.Error as e:
+#         print(f"Error reading WAV file: {e}")
 
 
 
