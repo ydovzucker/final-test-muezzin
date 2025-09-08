@@ -19,7 +19,8 @@ class Publisher:
         self.producer = KafkaProducer(
             bootstrap_servers=['localhost:9092'],
             allow_auto_create_topics=True,
-            value_serializer=lambda v: json.dumps(v).encode('utf-8')
+            max_block_ms=120000,
+            value_serializer=lambda x: json.dumps(x).encode('utf-8')
 
         )
         # self.headers = [('uniq_id',)
