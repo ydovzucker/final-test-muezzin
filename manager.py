@@ -34,8 +34,9 @@ def run():
              topic = "meta_data_for_audio_file"
              data = json.loads(json_meta_data)
 
-             headers = {"uniq_id":data["metadata"]["filesize"]}
-             publisher.publish(topic,json_meta_data,headers)
+             # headers = {"uniq_id":data["metadata"]["filesize"]}
+             # publisher.publish(topic,json_meta_data,headers)
+             publisher.publish(topic, json_meta_data)
              consumed_message = consume_meta_data(topic)
              id = consumed_message.headers["uniq_id"]
 

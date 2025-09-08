@@ -32,13 +32,13 @@ class Publisher:
 
         # )
 
-    def publish(self, topic: str, message: dict,headers: dict):
+    def publish(self, topic: str, message: dict):
         """
         Publish a single message (dict) to the given Kafka topic
         """
         try:
 
-            self.producer.send(topic, value=message,headers=headers)
+            self.producer.send(topic, value=message)
             self.producer.flush()  # Ensure it is sent immediately
             print(f"Published message to {topic}")
 

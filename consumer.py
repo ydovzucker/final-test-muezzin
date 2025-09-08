@@ -2,7 +2,6 @@ from kafka import KafkaConsumer
 import json
 
 # from consumer.app.insert_to_mongo import insert_to_mongo
-from processor_service.consumer.app.kafka_configurations import (BOOTSTRAP_SERVERS)
 
 
 def consume_meta_data(topic):
