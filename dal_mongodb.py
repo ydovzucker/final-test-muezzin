@@ -1,10 +1,15 @@
+import os
+
 from pymongo import MongoClient
 import gridfs
+import os
+
 
 
 class Fetcher:
     def __init__(self):
-        self.uri = 'mongodb://localhost:27017/'
+        # self.uri = 'mongodb://localhost:27017/'
+        self.uri = os.getenv("MONGO_URI")
         self.client = MongoClient(self.uri)
         self.db = self.client['audio-to-text']
         self.col = self.db["audio-files"]

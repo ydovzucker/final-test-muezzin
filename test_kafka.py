@@ -1,17 +1,17 @@
-# from kafka import KafkaProducer
-# from kafka.errors import NoBrokersAvailable
-#
-# try:
-#     producer = KafkaProducer(bootstrap_servers='localhost:9092')
-#     print("Successfully connected to Kafka on localhost:9092 (Producer).")
-#     # You can optionally send a test message here
-#     # producer.send('test_topic', b'Connection Test Message')
-#     # producer.flush()
-#     producer.close()
-# except NoBrokersAvailable:
-#     print("Failed to connect to Kafka. No brokers available at localhost:9092.")
-# except Exception as e:
-#     print(f"An unexpected error occurred during Kafka connection test: {e}")
+from kafka import KafkaProducer
+from kafka.errors import NoBrokersAvailable
+
+try:
+    producer = KafkaProducer(bootstrap_servers='localhost:9092')
+    print("Successfully connected to Kafka on localhost:9092 (Producer).")
+    # You can optionally send a test message here
+    # producer.send('test_topic', b'Connection Test Message')
+    # producer.flush()
+    producer.close()
+except NoBrokersAvailable:
+    print("Failed to connect to Kafka. No brokers available at localhost:9092.")
+except Exception as e:
+    print(f"An unexpected error occurred during Kafka connection test: {e}")
 from kafka import KafkaConsumer
 from kafka.errors import NoBrokersAvailable
 

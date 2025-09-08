@@ -7,23 +7,30 @@ import json
 def consume_meta_data(topic):
     TOPIC_NAME = topic
     GROUP_ID = None
+    print('mmm')
     consumer = KafkaConsumer(
         topic,  # Replace with your Kafka topic name
-        bootstrap_servers=['localhost:9092'],  # Adjust if your broker is on a different host
-        group_id='my_consumer_group',  # Specify a consumer group ID
+        bootstrap_servers='localhost:9092',  # Adjust if your broker is on a different host
+        group_id='meta_data_for_files',  # Specify a consumer group ID
         auto_offset_reset='earliest',  # Start reading from the earliest available message
         enable_auto_commit=True,  # Automatically commit offsets
         value_deserializer=lambda x: json.loads(x.decode('utf-8'))
     )
+    # print(consumer)
+
     try:
         for message in consumer:
             print(f"Received message: {message.value}")
             # Process the JSON data (message.value) as needed
+            # break
     except Exception as e:
         print(f"Error consuming messages: {e}")
     finally:
+
         consumer.close()
-    return consumer
+        return consumer
+        # consumer.close()
+    # return consumer
 #     arr = []
 #     count = 0
 #     for message in consumer:
@@ -52,3 +59,6 @@ def consume_meta_data(topic):
 #         print("Headers:")
 #         for header_key, header_value in message.headers:
 #             print(f"  {header_key.decode('utf-8')}: {header_value.decode('utf-8')}")
+if __name__ == "__main__":
+    topic = "meta_data_for_audio_file"
+    consume_meta_data(topic)

@@ -9,20 +9,23 @@ class Publisher:
     def __init__(self):
         # Kafka broker(s)
         # brokers = os.getenv("KAFKA_BROKERS","localhost:9092")
-        # self.producer = KafkaProducer(
-        #     bootstrap_servers=brokers.split,
-        #     allow_auto_create_topics=True,
-        #     max_block_ms=120000,
-        # value_serializer=lambda v: json.dumps(v, default=str).encode("utf-8")
-        #
-        # )
         self.producer = KafkaProducer(
-            bootstrap_servers=['localhost:9092'],
+            # bootstrap_servers=brokers.split,
+            # bootstrap_servers='localhost:9092',
+            # allow_auto_create_topics=True,
+            # max_block_ms=120000,
+            # value_serializer=lambda v: json.dumps(v).encode("utf-8")
+            bootstrap_servers='localhost:9092',
+            value_serializer=lambda x: json.dumps(x).encode('utf-8'),
             allow_auto_create_topics=True,
-            max_block_ms=120000,
-            value_serializer=lambda x: json.dumps(x).encode('utf-8')
-
         )
+        # self.producer = KafkaProducer(
+        #     bootstrap_servers='localhost:9092',
+        #     # group_id='meta_data_for_files',
+        #     # delivery_timeout_ms=60000,
+        #     # max_block_ms=120000,
+        #     # value_serializer=lambda x: json.dumps(x).encode('utf-8')
+        # )
         # self.headers = [('uniq_id',)
         #     ]
         # brokers = os.getenv("KAFKA_BROKERS")
@@ -39,8 +42,11 @@ class Publisher:
         """
         try:
 
-            self.producer.send(topic, value=message)
-            self.producer.flush()  # Ensure it is sent immediately
+
+            b = self.producer.send(topic, value=message)
+            print(b)
+            self.producer.flush()
+            # self.producer.close()# Ensure it is sent immediately
             print(f"Published message to {topic}")
 
         except KafkaError as e:
@@ -50,3 +56,15 @@ class Publisher:
             # Handle other unexpected errors
             print(f"An unexpected error occurred: {e}")
 
+
+if __name__ == "__main__":
+    p = KafkaProducer(
+        bootstrap_servers='localhost:9092',
+        value_serializer=lambda x: json.dumps(x).encode('utf-8'),
+        allow_auto_create_topics=True,
+        # delivery_timeout_ms=60000,
+        # acks='all'
+    )
+    f = p.send("sgaa", {'alk':'blll'})
+    p.close()
+    print(f.value)
