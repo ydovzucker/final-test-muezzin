@@ -22,8 +22,8 @@ class Publisher:
             value_serializer=lambda v: json.dumps(v).encode('utf-8')
 
         )
-        self.headers = [('uniq_id',)
-            ]
+        # self.headers = [('uniq_id',)
+        #     ]
         # brokers = os.getenv("KAFKA_BROKERS")
         # self.producer = KafkaProducer(
         #     bootstrap_servers=brokers.split(","),

@@ -21,6 +21,31 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092   # Container name for internal network
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://locallhost:9092   # Container name for internal network
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4 # Use the official Elasticsearch image
+    container_name: elasticsearch
+    ports:
+      - "9200:9200" # Expose Elasticsearch HTTP port
+      - "9300:9300" # Expose Elasticsearch transport port
+    environment:
+      - discovery.type=single-node # For a single-node setup
+      - xpack.security.enabled=false # Disable security for ease of use in development (not recommended for production)
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Set Java heap size
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data # Persist data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  volumes:
+    elasticsearch_data:
