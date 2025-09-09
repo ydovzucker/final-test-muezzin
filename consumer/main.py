@@ -7,9 +7,7 @@ import time
 def main():
     # try:
         topic = "meta_data_for_audio_file"
-        TOPIC_NAME = topic
-        GROUP_ID = None
-        print('mmm')
+
         consumer = KafkaConsumer(
             "meta_data_for_audio_file",  # Replace with your Kafka topic name
             bootstrap_servers='localhost:9092',  # Adjust if your broker is on a different host
@@ -18,13 +16,7 @@ def main():
             enable_auto_commit=True,  # Automatically commit offsets
             value_deserializer=lambda x: json.loads(x.decode('utf-8'))
         )
-        # print("hi")
-        # topic = "meta_data_for_audio_file"
-        # consume_meta_data(topic)
-    # except Exception as e:
-    #     print(e)
-    # finally:
-    #     print("hello")
+
 
 
         for message in consumer:
@@ -33,10 +25,7 @@ def main():
             id = data["metadata"]["filesize"]
             print(id)
             print("hello")
-    # except Exception as e:
-    #     print(e)
-    # finally:
-    #     print("hello")
+
 
 
 
