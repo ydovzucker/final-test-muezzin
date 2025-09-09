@@ -2,7 +2,7 @@ from publisher import Publisher
 from meta_data_files import get_meta_data,convert_meta_data_to_json
 import json
 import os
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 def main():
     try:

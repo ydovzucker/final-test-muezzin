@@ -1,7 +1,7 @@
 from elasticsearch import Elasticsearch
 from dotenv import load_dotenv
 import os
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 load_dotenv()
 

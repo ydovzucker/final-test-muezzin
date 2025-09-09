@@ -1,7 +1,7 @@
 
 
 from elastic.connection_elastic import get_es_client
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 import os
 from audio_to_text import AudioToText
@@ -30,6 +30,7 @@ class Converter_manager:
             print(response)
             logger.info(response)
         except Exception as e:
+            print(f"An unexpected error occurred updating elasticsearch: {e}")
             logger.error(f"An unexpected error occurred updating elasticsearch: {e}")
 
 

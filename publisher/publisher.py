@@ -3,7 +3,7 @@ from kafka import KafkaProducer,KafkaClient,KafkaConsumer
 import json
 from dotenv import load_dotenv
 from kafka.errors import KafkaError
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 
 load_dotenv()  # Load env vars

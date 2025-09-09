@@ -3,8 +3,8 @@ import json
 
 import os
 from pathlib import Path
-from logger import Logger
-Logger = Logger()
+from logger_elastic import Logger
+# Logger = Logger()
 logger = Logger.get_logger()
 
 

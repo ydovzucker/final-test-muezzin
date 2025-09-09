@@ -3,7 +3,7 @@ import os
 from pymongo import MongoClient
 import gridfs
 import os
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 
 

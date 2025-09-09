@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from elastic.connection_elastic import get_es_client
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 def index_json_to_elastic(index,document,document_id):
     es = get_es_client()

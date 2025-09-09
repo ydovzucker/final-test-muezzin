@@ -1,5 +1,5 @@
 import speech_recognition as sr
-from logger import Logger
+from logger_elastic import Logger
 logger = Logger.get_logger()
 class AudioToText:
     def __init__(self):

@@ -8,8 +8,8 @@ load_dotenv()
 class Logger:
     _logger = None
     @classmethod
-    def get_logger(cls, name="logger_muezzin", es_host=os.getenv("ES_HOST"),
-    index="meta_data_audio", level=logging.DEBUG):
+    def get_logger(cls, name="logger_muezzin", es_host=os.getenv("ES_HOST","http://localhost:9200"),
+index="meta_data_audio", level=logging.DEBUG):
         if cls._logger:
             return cls._logger
         logger = logging.getLogger(name)
