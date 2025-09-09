@@ -7,7 +7,7 @@ from elastic.main import index_json_to_elastic
 from dal_mongodb import DalMongo
 
 import hashlib
-
+from converter.convert_manager import Converter_manager
 
 import json
 
@@ -32,6 +32,8 @@ def main():
         file_path = data["file_path"]
         dal_mongo = DalMongo()
         dal_mongo.insert_to_mongo( file_path, data["file name"], id)
+        converter = Converter_manager()
+        converter.insert_txt_to_elastic(file_path,id)
 
 
 

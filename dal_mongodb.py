@@ -3,6 +3,8 @@ import os
 from pymongo import MongoClient
 import gridfs
 import os
+from logger import Logger
+logger = Logger.get_logger()
 
 
 
@@ -18,9 +20,14 @@ class DalMongo:
 # client = MongoClient('mongodb://localhost:27017/') # Replace with your MongoDB connection string
 
     def insert_to_mongo(self,file_path,file_name,id):
+       try:
 
 
-        with open(file_path, 'rb') as f:
-            # Upload the file to GridFS
-            file_id = self.fs.put(f, filename=file_name, content_type='audio/wav',id=id)
-            print(f"File '{file_name}' uploaded with ID: {file_id}")
+            with open(file_path, 'rb') as f:
+                # Upload the file to GridFS
+                file_id = self.fs.put(f, filename=file_name, content_type='audio/wav',id=id)
+                logger.info(f"File '{file_name}' uploaded with ID: {file_id}")
+
+       except Exception as e:
+
+            logger.error(f"An unexpected error occurred uploading to mongo: {e}")

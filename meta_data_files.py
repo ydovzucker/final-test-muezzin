@@ -3,6 +3,9 @@ import json
 
 import os
 from pathlib import Path
+from logger import Logger
+Logger = Logger()
+logger = Logger.get_logger()
 
 
 def get_meta_data(full_path):
@@ -10,9 +13,10 @@ def get_meta_data(full_path):
     file_path = Path(full_path)
     try:
         stats = file_path.stat()
+        logger.info("got meta data for this file")
         return stats
     except FileNotFoundError:
-        print(f"File not found: {file_path}")
+        logger.error(f"File not found: {file_path}")
 
 def convert_meta_data_to_json(stats,full_path):
     meta_data = {

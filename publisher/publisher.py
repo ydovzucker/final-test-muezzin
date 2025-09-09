@@ -3,6 +3,8 @@ from kafka import KafkaProducer,KafkaClient,KafkaConsumer
 import json
 from dotenv import load_dotenv
 from kafka.errors import KafkaError
+from logger import Logger
+logger = Logger.get_logger()
 
 load_dotenv()  # Load env vars
 class Publisher:
@@ -28,27 +30,18 @@ class Publisher:
 
 
             b = self.producer.send(topic, value=message)
-            print(b)
+
             self.producer.flush()
             # self.producer.close()# Ensure it is sent immediately
-            print(f"Published message to {topic}")
+            logger.info(f"Published message to {topic}")
 
         except KafkaError as e:
             # Handle Kafka-specific errors (e.g., connection issues, invalid topic)
-            print(f"KafkaError occurred: {e}")
+            logger.error(f"KafkaError occurred: {e}")
         except Exception as e:
             # Handle other unexpected errors
-            print(f"An unexpected error occurred: {e}")
+            logger.error(f"An unexpected error occurred: {e}")
 
 
 if __name__ == "__main__":
-    p = KafkaProducer(
-        bootstrap_servers='localhost:9092',
-        value_serializer=lambda x: json.dumps(x).encode('utf-8'),
-        allow_auto_create_topics=True,
-        # delivery_timeout_ms=60000,
-        # acks='all'
-    )
-    f = p.send("sgaa", {'alk':'blll'})
-    p.close()
-    print(f.value)
+    print("hello")
