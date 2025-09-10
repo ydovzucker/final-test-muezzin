@@ -31,3 +31,5 @@ index="meta_data_audio", level=logging.DEBUG):
                         print(f"ES log failed: {e}")
             logger.addHandler(ESHandler())
             logger.addHandler(logging.StreamHandler())
+            cls._logger = logger
+            return logger
