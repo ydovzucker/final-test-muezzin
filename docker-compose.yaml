@@ -25,30 +25,83 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-#  volumes:
-#    kafka-data:
 
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4 # Use the official Elasticsearch image
-#    container_name: elasticsearch
-#    ports:
-#      - "9200:9200" # Expose Elasticsearch HTTP port
-#      - "9300:9300" # Expose Elasticsearch transport port
-#    environment:
-#      - discovery.type=single-node # For a single-node setup
-#      - xpack.security.enabled=false # Disable security for ease of use in development (not recommended for production)
-#      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Set Java heap size
-#    volumes:
-#      - elasticsearch_data:/usr/share/elasticsearch/data # Persist data
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    healthcheck:
-#      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
-#      interval: 10s
-#      timeout: 10s
-#      retries: 5
-#
-##  volumes:
-##    elasticsearch_data:
+
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.2 # Use a specific version
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false # Disable security for simplicity in development
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Adjust memory as needed
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data # Persist data
+    networks:
+      - elastic_network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.2 # Match Elasticsearch version
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200 # Connect to Elasticsearch service
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch # Ensure Elasticsearch starts first
+    networks:
+      - elastic_network
+
+
+
+
+
+
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  publisher:
+    build: ./publisher
+    container_name: publisher
+    depends_on:
+      - kafka
+
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+      - MONGO_URI=mongodb://mongo:27017/
+      - ES_HOST=http://elastic:9200
+      - INDEX_ELASTIC=meta_data_audio
+
+      - BOOTSTRAP_SERVERS=kafka:9092
+    ports:
+      - "8000:8000"
+    command: ["python", "main.py"]
+
+  consumer:
+    build: ./consumer
+    container_name: consumer
+    depends_on:
+      - kafka
+      - mongo
+      - elastic
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+      - MONGO_URI=mongodb://mongo:27017/
+      - ES_HOST=http://elastic:9200
+      - INDEX_ELASTIC=meta_data_audio
+
+      - BOOTSTRAP_SERVERS=kafka:9092
+
+    ports:
+      - "8001:8001"
+    command: ["python", "manager.py"]
+

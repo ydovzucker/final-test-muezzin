@@ -4,7 +4,7 @@ from elastic.connection_elastic import get_es_client
 from logger_elastic import Logger
 logger = Logger.get_logger()
 import os
-from audio_to_text import AudioToText
+from converter.audio_to_text import AudioToText
 class Converter_manager:
     def __init__(self):
         self.converter = AudioToText()

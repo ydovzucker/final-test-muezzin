@@ -1,3 +1,4 @@
+import os
 from asyncio import timeout
 
 from kafka import KafkaConsumer
@@ -12,7 +13,7 @@ def consume_meta_data(topic):
     print('mmm')
     consumer = KafkaConsumer(
         topic,  # Replace with your Kafka topic name
-        bootstrap_servers='localhost:9092',  # Adjust if your broker is on a different host
+        bootstrap_servers=os.getenv("BOOTSTRAP_SERVERS",'localhost:9092'), # Adjust if your broker is on a different host
         group_id='meta_data_for_files',  # Specify a consumer group ID
         auto_offset_reset='earliest',  # Start reading from the earliest available message
         enable_auto_commit=True,

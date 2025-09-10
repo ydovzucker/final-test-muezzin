@@ -1,5 +1,5 @@
 from publisher import Publisher
-from meta_data_files import get_meta_data,convert_meta_data_to_json
+from publisher.meta_data_files import get_meta_data,convert_meta_data_to_json
 import json
 import os
 from logger_elastic import Logger

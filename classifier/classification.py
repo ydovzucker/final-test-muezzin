@@ -1,12 +1,11 @@
 
 import base64
-from elasticsearch.helpers import scan
+
 from elastic.connection_elastic import  get_es_client
-encrypted_hostile_list = "R2Vub2NpZGUsV2FyIENyaW1lcyxBcGFydGhlaWQsTWFzc2FjcmUsTmFrYmEsRGlzcGxhY2VtZW50LEh1bWFuaXRhcmlhbiBDcmlzaXMsQmxvY2thZGUsT2NjdXBhdGlvbixSZWZ1Z2VlcyxJQ0MsQkRT"
-encrypted_semi_hostile_list = "RnJlZWRvbSBGbG90aWxsYSxSZXNpc3RhbmNlLExpYmVyYXRpb24sRnJlZSBQYWxlc3RpbmUsR2F6YSxDZWFzZWZpcmUsUHJvdGVzdCxVTlJXQQ=="
+
 class Classification:
      def __init__(self):
-         self.es_client = get_es_client()
+         self.es = get_es_client()
 
      def decode_encrypted_string(self,encoded_message):
          #decodes to bytes
@@ -40,11 +39,9 @@ class Classification:
          else:
              bds_threat_level = "high"
          return bds_threat_level
-     def insert_values_into_document(self,list_of_values,index_name,document_id):
-         doc = {}
-         for value in list_of_values:
-             doc.update(value)
-         response = self.es_client.update(
+     def insert_values_into_document(self,doc,index_name,document_id):
+
+         response = self.es.update(
              index=index_name,
              id=document_id,
              body={
@@ -58,15 +55,6 @@ class Classification:
 
 
 
-# index_name = "your_index_name" # Replace with your index name
-#
-# for doc in scan(es,
-#                 query={"query": {"match_all": {}}},  # Or your specific query
-#                 index=index_name):
-#     # 'doc' represents each document found in the index
-#     # You can access document data using doc['_source']
-#     # And the document ID using doc['_id']
-#     print(f"Document ID: {doc['_id']}, Source: {doc['_source']}")
 
 if __name__ == "__main__":
     c = Classification()
