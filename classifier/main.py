@@ -17,14 +17,14 @@ def run():
                         query={"query": {"match_all": {}}},
                         index=index_name):
             print(f"Document ID: {doc['_id']}, Source: {doc['_source']}")
-    #         text = doc['_source']["translated_to_text"]
-    #         document_id = doc['_id']
-    #         bds_percent = classification.bds_percent(text, decoded_hostile_list,decoded__semi_hostile_list)
-    #         is_bds = classification.is_bds(bds_percent)
-    #         threat_level = classification.threat_level( bds_percent)
-    #         doc = {"bds_percent":bds_percent,"is_bds":is_bds,"threat_level":threat_level}
-    #         response = classification.insert_values_into_document( doc, index_name, document_id)
-    #         return response
+            text = doc['_source']["translated_to_text"]
+            document_id = doc['_id']
+            bds_percent = classification.bds_percent(text, decoded_hostile_list,decoded__semi_hostile_list)
+            is_bds = classification.is_bds(bds_percent)
+            threat_level = classification.threat_level( bds_percent)
+            doc = {"bds_percent":bds_percent,"is_bds":is_bds,"threat_level":threat_level}
+            response = classification.insert_values_into_document( doc, index_name, document_id)
+            return response
     except Exception as e:
         # Handle other unexpected errors
         logger.error(f"An unexpected error occurred: {e}")

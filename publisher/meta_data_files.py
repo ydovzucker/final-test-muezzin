@@ -8,7 +8,7 @@ from logger_elastic import Logger
 logger = Logger.get_logger()
 
 
-def get_meta_data(full_path):
+def get_meta_data(full_path): # gets all information for the file also called meta data
 
     file_path = Path(full_path)
     try:
@@ -18,7 +18,7 @@ def get_meta_data(full_path):
     except FileNotFoundError:
         logger.error(f"File not found: {file_path}")
 
-def convert_meta_data_to_json(stats,full_path):
+def convert_meta_data_to_json(stats,full_path): # takes the meta data object and creates dict with all the relevant data and converts to json
     meta_data = {
         "file_path": full_path,
         f"File size": f"{stats.st_size} bytes",

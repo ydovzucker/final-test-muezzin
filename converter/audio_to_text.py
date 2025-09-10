@@ -15,6 +15,7 @@ class AudioToText:
             text = self.r.recognize_google(audio_data)
             print("Transcription: " + text)
             logger.info("translated audio to text")
+            return text
         except sr.UnknownValueError:
             logger.error("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:

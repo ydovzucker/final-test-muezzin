@@ -84,7 +84,7 @@ services:
       - BOOTSTRAP_SERVERS=kafka:9092
     ports:
       - "8000:8000"
-    command: ["python", "main.py"]
+    command: ["python", "publisher/main.py"]
 
   consumer:
     build: ./consumer
@@ -103,5 +103,5 @@ services:
 
     ports:
       - "8001:8001"
-    command: ["python", "manager.py"]
+    command: ["python", "consumer/manager.py"]
 

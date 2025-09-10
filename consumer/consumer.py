@@ -8,11 +8,10 @@ import json
 
 
 def consume_meta_data(topic):
-    TOPIC_NAME = topic
-    GROUP_ID = None
+
     print('mmm')
-    consumer = KafkaConsumer(
-        topic,  # Replace with your Kafka topic name
+    consumer = KafkaConsumer( # initializes the consumer
+        topic,
         bootstrap_servers=os.getenv("BOOTSTRAP_SERVERS",'localhost:9092'), # Adjust if your broker is on a different host
         group_id='meta_data_for_files',  # Specify a consumer group ID
         auto_offset_reset='earliest',  # Start reading from the earliest available message
@@ -20,22 +19,8 @@ def consume_meta_data(topic):
         consumer_timeout_ms=100000,# Automatically commit offsets
         value_deserializer=lambda x: json.loads(x.decode('utf-8')),
 
-
     )
-    # print(consumer)
 
-    # try:
-    #     for message in consumer:
-    #
-    #
-    #         print(f"Received message: {message.value}")
-    #         # Process the JSON data (message.value) as needed
-    #
-    # except Exception as e:
-    #     print(f"Error consuming messages: {e}")
-    # finally:
-    #
-    #     consumer.close()
     return consumer
 
 if __name__ == "__main__":

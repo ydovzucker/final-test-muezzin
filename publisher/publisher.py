@@ -11,7 +11,7 @@ class Publisher:
     def __init__(self):
         # Kafka broker(s)
         # brokers = os.getenv("KAFKA_BROKERS","localhost:9092")
-        self.producer = KafkaProducer(
+        self.producer = KafkaProducer( # initializes the producer to kafka
 
             bootstrap_servers='localhost:9092',
             value_serializer=lambda x: json.dumps(x).encode('utf-8'),
